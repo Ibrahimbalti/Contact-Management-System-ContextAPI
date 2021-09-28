@@ -5,10 +5,16 @@ const User = require('../models/User');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-
+const auth = require('../middlewares/auth');
 // Jo phly sa hi login user ko get kra ga
-router.get('/', (req, res) => {
-  res.send('Get login user');
+router.get('/', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.send(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
 });
 
 // Jo login ko form ko submit krga wo user ha
