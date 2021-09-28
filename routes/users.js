@@ -3,6 +3,8 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const User = require('../models/User');
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 router.post(
   '/',
   [
@@ -51,7 +53,27 @@ router.post(
       await user.save();
 
       // check on the  postman  user are created or not
-      res.send('user are created');
+      // res.send('user are created');
+
+      // payload is object tha contain the user id and we pass this payload to jwt
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      // user jwt token,,,we pass payload and screte data and give expire date or time and make a call back function
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        {
+          expiresIn: 3600000,
+        },
+        (error, token) => {
+          if (error) throw error;
+          res.json({ token });
+        }
+      );
     } catch (error) {
       console.log(error.message);
       return res.status(500).send('Server error');
