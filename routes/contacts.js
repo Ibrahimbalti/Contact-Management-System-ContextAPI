@@ -3,6 +3,7 @@ const router = express.Router();
 const contact = require('../models/Contact');
 const auth = require('../middlewares/auth');
 const user = require('../models/User');
+const { check, validationResult } = require('express-validator');
 
 router.get('/', auth, async (req, res) => {
   try {
@@ -19,9 +20,33 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
-  res.send('Add a contacts');
-});
+router.post(
+  '/',
+  [auth, [check('name', 'Name is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ msg: errors.array() });
+    }
+
+    const { name, email, phone, type } = req.body;
+    try {
+      const newContact = new contact({
+        name,
+        email,
+        phone,
+        type,
+        user: req.user.id,
+      });
+
+      const contacts = await newContact.save();
+      res.json(contacts);
+    } catch (erro) {
+      console.error(erro.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 router.put('/:id', (req, res) => {
   res.send('Update the contacts');
