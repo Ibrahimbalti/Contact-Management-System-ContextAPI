@@ -88,8 +88,24 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
-  res.send('Delete the contacts');
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    let contact = await Contact.findById(req.params.id);
+    if (!contact) {
+      return res.status(401).json({ msg: 'This contact does not exist' });
+    }
+    if (contact.user.toString() !== req.user.id) {
+      return res
+        .status(400)
+        .json({ msg: 'You have not access the authorization of this contact' });
+    }
+
+    await Contact.findByIdAndDelete(req.params.id);
+    res.send({ msg: 'Contact delete successfully' });
+  } catch (erro) {
+    console.error(erro.message);
+    res.status(500).send('Server error');
+  }
 });
 
 module.exports = router;
