@@ -101,6 +101,7 @@ router.delete('/:id', auth, async (req, res) => {
     }
 
     await Contact.findByIdAndDelete(req.params.id);
+
     res.send({ msg: 'Contact delete successfully' });
   } catch (erro) {
     console.error(erro.message);
