@@ -3,13 +3,20 @@ import ContactContext from '../../context/contact/contactContext';
 import ContactItems from './ContactItems';
 export const Contacts = () => {
   const contactContext = useContext(ContactContext);
-  const { contacts } = contactContext;
+  const { contacts, filter } = contactContext;
+  if (contacts.length === 0) {
+    return <h3>Add the form of contact </h3>;
+  }
 
   return (
     <Fragment>
-      {contacts.map((contact) => (
-        <ContactItems key={contact.id} contact={contact} />
-      ))}
+      {filter !== null
+        ? filter.map((contact) => (
+            <ContactItems key={contact.id} contact={contact} />
+          ))
+        : contacts.map((contact) => (
+            <ContactItems key={contact.id} contact={contact} />
+          ))}
     </Fragment>
   );
 };

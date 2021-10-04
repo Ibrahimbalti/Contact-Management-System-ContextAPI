@@ -5,7 +5,7 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_CONTACT,
-  FILTER_CONTACTS,
+  FILTER_CONTACT,
   CLEAR_CONTACTS,
   CLEAR_FILTER,
   CONTACT_ERROR,
@@ -42,6 +42,24 @@ const contactReducer = (state, action) => {
       return {
         ...state,
         current: null,
+      };
+
+    case FILTER_CONTACT:
+      return {
+        ...state,
+        filter: state.contacts.filter((contact) => {
+          // we make regular expression ..in regular expression first we pass action.payload the action.payload contant the text
+          // and g means globally match the text and i means not a case sensative
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          // we match the contact name to search box text and after we match email to search box text
+          return contact.name.match(regex) || contact.email.match(regex);
+        }),
+      };
+
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filter: null,
       };
     default:
       return state;

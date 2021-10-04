@@ -25,12 +25,7 @@ const ContactForm = () => {
       updateContact(contact);
     }
 
-    setContact({
-      name: '',
-      email: '',
-      phone: '',
-      type: '',
-    });
+    claerAll();
   };
 
   useEffect(() => {
