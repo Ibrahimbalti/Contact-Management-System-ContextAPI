@@ -7,6 +7,7 @@ import {
   DELETE_CONTACT,
   SET_CURRENT,
   CLEAR_CURRENT,
+  UPDATE_CONTACT,
 } from '../types';
 import { v4 as uuid } from 'uuid';
 
@@ -62,6 +63,12 @@ const ContactState = (props) => {
     dispatch({ type: CLEAR_CURRENT });
   };
 
+  // update contact
+
+  const updateContact = (contact) => {
+    dispatch({ type: UPDATE_CONTACT, payload: contact });
+  };
+
   return (
     <contactContext.Provider
       value={{
@@ -71,6 +78,7 @@ const ContactState = (props) => {
         deleteContact,
         setCurrent,
         clearCurrent,
+        updateContact,
       }}
     >
       {props.children}

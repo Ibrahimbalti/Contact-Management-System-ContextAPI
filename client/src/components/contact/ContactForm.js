@@ -3,7 +3,7 @@ import ContactContext from '../../context/contact/contactContext';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
-  const { addContact, current, clearCurrent } = contactContext;
+  const { addContact, current, clearCurrent, updateContact } = contactContext;
   // the name email and other data get from database
   const [contact, setContact] = useState({
     name: '',
@@ -19,7 +19,11 @@ const ContactForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addContact(contact);
+    if (current === null) {
+      addContact(contact);
+    } else {
+      updateContact(contact);
+    }
 
     setContact({
       name: '',
@@ -41,6 +45,10 @@ const ContactForm = () => {
       });
     }
   }, [contactContext, current]);
+
+  const claerAll = () => {
+    clearCurrent();
+  };
   return (
     <form onSubmit={onSubmit}>
       <h2 className="text-primary">
@@ -93,10 +101,7 @@ const ContactForm = () => {
 
         {current && (
           <div>
-            <button
-              className="btn btn-light btn-block"
-              onClick={() => clearCurrent()}
-            >
+            <button className="btn btn-light btn-block" onClick={claerAll}>
               Clear
             </button>
           </div>
