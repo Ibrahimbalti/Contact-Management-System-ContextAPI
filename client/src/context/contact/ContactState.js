@@ -2,7 +2,12 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import contactContext from './contactContext';
 import contactReducer from './contactReducers';
-import { ADD_CONTACT, DELETE_CONTACT } from '../types';
+import {
+  ADD_CONTACT,
+  DELETE_CONTACT,
+  SET_CURRENT,
+  CLEAR_CURRENT,
+} from '../types';
 import { v4 as uuid } from 'uuid';
 
 const ContactState = (props) => {
@@ -30,6 +35,8 @@ const ContactState = (props) => {
         type: 'professional',
       },
     ],
+
+    current: null,
   };
 
   const [state, dispatch] = useReducer(contactReducer, initialState);
@@ -45,12 +52,25 @@ const ContactState = (props) => {
     dispatch({ type: DELETE_CONTACT, payload: id });
   };
 
+  // set Current
+  const setCurrent = (contact) => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
+
+  // clear current
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
+
   return (
     <contactContext.Provider
       value={{
         contacts: state.contacts,
+        current: state.current,
         addContact,
         deleteContact,
+        setCurrent,
+        clearCurrent,
       }}
     >
       {props.children}
