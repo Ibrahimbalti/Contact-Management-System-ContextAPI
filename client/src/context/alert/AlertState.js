@@ -13,9 +13,9 @@ const AlertState = (props) => {
   // Set alert
   // 5000 ms is equal to 5 second
   const setAlert = (msg, type, timeout = 5000) => {
-    const id = uuid;
+    const id = uuid();
     dispatch({ type: SET_ALERT, payload: { msg, type, id } });
-    setTimeout(dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
   };
 
   return (
