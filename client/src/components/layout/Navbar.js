@@ -15,15 +15,21 @@ export const Navbar = ({ title, icons }) => {
         <li>
           <Link to="/about">About</Link>
         </li>
+        <li>
+          <Link to="/register">Register</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
       </ul>
     </div>
   );
 };
 
-// Navbar.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   icons: PropTypes.string.isRequired,
-// };
+Navbar.propTypes = {
+  title: PropTypes.string.isRequired,
+  icons: PropTypes.string.isRequired,
+};
 
 Navbar.defaultProps = {
   title: 'Contact Management',
