@@ -30,6 +30,35 @@ const AuthState = (props) => {
 
   // load user
   // Register user
+  // const Register = async (formData) => {
+  //   const config = {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   };
+
+  //   try {
+  //     const res = await axios.post('/api/users', formData, config);
+  //     dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+  //   } catch (error) {
+  //     dispatch({ type: REGISTER_FAIL, payload: error.response.data.msg });
+  //   }
+  // };
+
+  const register = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/users', formData, config);
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
+    }
+  };
+
   //login user
   //logout user
   // clear errors
@@ -45,6 +74,7 @@ const AuthState = (props) => {
 
         user: state.user,
         error: state.error,
+        register,
       }}
     >
       {props.children}
