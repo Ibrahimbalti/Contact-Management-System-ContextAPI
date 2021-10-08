@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 
-const Register = () => {
+const Register = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register } = authContext;
+  const { register, error, clearErrors, isAuthentication } = authContext;
 
   const [user, setUser] = useState({
     name: '',
@@ -35,6 +35,20 @@ const Register = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (isAuthentication) {
+      // redirect the page
+      props.history.push('/');
+    }
+
+    if (error === 'User email already exist') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+
+    //eslint-disable-next-line
+  }, [error, isAuthentication, props.history]);
   return (
     <div className="form-container">
       <h2>User Registraction</h2>

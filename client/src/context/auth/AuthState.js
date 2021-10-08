@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import authContext from './authContext';
 import authReducer from './authReducer';
+import setAuthToken from '../../utils/setAuthToken';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -12,7 +13,6 @@ import {
   AUTH_ERROR,
   CLEAR_ERRORS,
 } from '../types';
-import { v4 as uuid } from 'uuid';
 
 const AuthState = (props) => {
   const initialState = {
@@ -27,25 +27,10 @@ const AuthState = (props) => {
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
-
-  // load user
-  // Register user
-  // const Register = async (formData) => {
-  //   const config = {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   };
-
-  //   try {
-  //     const res = await axios.post('/api/users', formData, config);
-  //     dispatch({ type: REGISTER_SUCCESS, payload: res.data });
-  //   } catch (error) {
-  //     dispatch({ type: REGISTER_FAIL, payload: error.response.data.msg });
-  //   }
-  // };
-
+  // Register Users
   const register = async (formData) => {
+    //  we send a formData  in json format so we tell a axios we snd a json data so
+    // we define a config that contain the headers
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -58,10 +43,25 @@ const AuthState = (props) => {
       dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
     }
   };
-
+  //loaded user
+  const loadedUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    try {
+      const res = await axios.get('/api/auth');
+      dispatch({ type: USER_LOADED, payload: res.data });
+      loadedUser();
+    } catch (err) {
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
   //login user
   //logout user
   // clear errors
+  const clearErrors = () => {
+    dispatch({ type: CLEAR_ERRORS });
+  };
 
   return (
     <authContext.Provider
@@ -75,6 +75,8 @@ const AuthState = (props) => {
         user: state.user,
         error: state.error,
         register,
+        loadedUser,
+        clearErrors,
       }}
     >
       {props.children}

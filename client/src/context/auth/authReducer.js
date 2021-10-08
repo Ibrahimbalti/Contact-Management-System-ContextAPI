@@ -11,6 +11,13 @@ import {
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthentication: true,
+        loading: false,
+        user: action.payload,
+      };
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
@@ -21,6 +28,7 @@ const authReducer = (state, action) => {
       };
 
     case REGISTER_FAIL:
+    case AUTH_ERROR:
       localStorage.removeItem('token');
       return {
         ...state,
@@ -29,6 +37,12 @@ const authReducer = (state, action) => {
         loading: false,
         user: null,
         error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
       };
     default:
       return state;

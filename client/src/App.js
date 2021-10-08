@@ -11,7 +11,12 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import AlertState from './context/alert/AlertState';
 import Alert from './components/layout/Alert';
+import setAuthToken from './utils/setAuthToken';
 const App = () => {
+  // jab be user ko page refresh kr ga...tu user load hga is localstorage ko app.js ma use kiya ha
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
   return (
     <div className="App">
       <AuthState>
