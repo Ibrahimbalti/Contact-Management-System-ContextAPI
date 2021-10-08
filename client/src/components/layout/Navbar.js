@@ -6,11 +6,14 @@ export const Navbar = ({ title, icons }) => {
   const authContext = useContext(AuthContext);
   const { Logout, isAuthentication, user } = authContext;
 
+  const onLogout = () => {
+    Logout();
+  };
   const authLink = (
     <Fragment>
       <li>Hello {user && user.name}</li>
       <li>
-        <a href="#!">
+        <a href="#!" onClick={onLogout}>
           <i className="fas fa-sign-out-alt" />
           <span className="hide-sm">Logout</span>
         </a>
