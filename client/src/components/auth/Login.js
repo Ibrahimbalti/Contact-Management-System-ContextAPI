@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
-const Login = () => {
+const Login = (props) => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
+  const { Login, error, isAuthentication, clearErrors } = authContext;
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -12,8 +19,29 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('login user');
+    if (email === '' || password === '') {
+      setAlert('Please fil the login form', 'danger');
+    } else {
+      Login({
+        email,
+        password,
+      });
+    }
   };
+
+  useEffect(() => {
+    if (isAuthentication) {
+      // redirect the page
+      props.history.push('/');
+    }
+
+    if (error === 'A user does not exist this email') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+
+    //eslint-disable-next-line
+  }, [error, isAuthentication, props.history]);
   return (
     <div className="form-container">
       <h2>User Login</h2>
@@ -25,6 +53,7 @@ const Login = () => {
             placeholder="email"
             value={email}
             onChange={onchange}
+            name="email"
           />
         </div>
 
@@ -35,6 +64,7 @@ const Login = () => {
             placeholder="password"
             value={password}
             onChange={onchange}
+            name="password"
           />
         </div>
 
