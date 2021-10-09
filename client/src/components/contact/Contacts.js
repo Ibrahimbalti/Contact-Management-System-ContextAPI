@@ -12,10 +12,10 @@ export const Contacts = () => {
     <Fragment>
       {filter !== null
         ? filter.map((contact) => (
-            <ContactItems key={contact.id} contact={contact} />
+            <ContactItems key={contact._id} contact={contact} />
           ))
         : contacts.map((contact) => (
-            <ContactItems key={contact.id} contact={contact} />
+            <ContactItems key={contact._id} contact={contact} />
           ))}
     </Fragment>
   );
