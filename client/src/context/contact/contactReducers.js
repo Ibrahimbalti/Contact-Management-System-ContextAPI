@@ -61,6 +61,12 @@ const contactReducer = (state, action) => {
         ...state,
         filter: null,
       };
+
+    case CONTACT_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return state;
   }
