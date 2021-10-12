@@ -93,7 +93,6 @@ const AuthState = (props) => {
         user: state.user,
         error: state.error,
         register,
-        loadedUser,
         clearErrors,
         loadedUser,
         Login,
