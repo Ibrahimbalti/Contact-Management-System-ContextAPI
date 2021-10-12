@@ -73,6 +73,15 @@ const contactReducer = (state, action) => {
         ...state,
         error: action.payload,
       };
+
+    case CLEAR_CONTACT:
+      return {
+        ...state,
+        contacts: null,
+        filter: null,
+        error: null,
+        current: null,
+      };
     default:
       return state;
   }
