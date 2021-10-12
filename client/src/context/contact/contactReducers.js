@@ -1,18 +1,24 @@
 import {
-  GET_CONTACTS,
+  GET_CONTACT,
   ADD_CONTACT,
   DELETE_CONTACT,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_CONTACT,
   FILTER_CONTACT,
-  CLEAR_CONTACTS,
+  CLEAR_CONTACT,
   CLEAR_FILTER,
   CONTACT_ERROR,
 } from '../types';
 
 const contactReducer = (state, action) => {
   switch (action.type) {
+    case GET_CONTACT:
+      return {
+        ...state,
+        contacts: action.payload,
+        loading: false,
+      };
     case ADD_CONTACT:
       return {
         ...state,

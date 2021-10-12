@@ -57,8 +57,6 @@ const AuthState = (props) => {
     }
   };
   //login user
-
-  // Register Users
   const Login = async (formData) => {
     //  we send a formData  in json format so we tell a axios we snd a json data so
     // we define a config that contain the headers

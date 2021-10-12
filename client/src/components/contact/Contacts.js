@@ -1,9 +1,14 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, Fragment, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext';
 import ContactItems from './ContactItems';
 export const Contacts = () => {
   const contactContext = useContext(ContactContext);
-  const { contacts, filter } = contactContext;
+  const { contacts, filter, getContact, loading } = contactContext;
+
+  useEffect(() => {
+    getContact();
+    // eslint-disable-next-line
+  }, []);
   if (contacts.length === 0) {
     return <h3>Add the form of contact </h3>;
   }
