@@ -17,11 +17,10 @@ import {
 
 const ContactState = (props) => {
   const initialState = {
-    contacts: [],
+    contacts: null,
     current: null,
     filter: null,
     error: null,
-    loading: false,
   };
 
   const [state, dispatch] = useReducer(contactReducer, initialState);
@@ -90,7 +89,6 @@ const ContactState = (props) => {
         current: state.current,
         filter: state.filter,
         error: state.error,
-        loading: state.loading,
         addContact,
         deleteContact,
         setCurrent,
