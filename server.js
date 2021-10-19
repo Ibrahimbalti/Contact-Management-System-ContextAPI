@@ -25,20 +25,12 @@ app.use('/api/auth', require('./routes/auth'));
 //   );
 // }
 
-// if (process.env.NODE_ENV === 'production') {
-//   // Set Static Folder
-//   app.use(express.static('client/build'));
-//   app.get('*', (req, res) =>
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-//   );
-// }
-
 if (process.env.NODE_ENV === 'production') {
-  //set a static folder
-  app.use(express.static('./client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+  // Set Static Folder
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
 }
 
 const PORT = process.env.Port || 5000;
